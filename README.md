@@ -52,11 +52,6 @@ Alcance importante:
 
 ## Screenshots / Capturas
 
-> Save images in `docs/images/` (recommended names below) to display them in GitHub.
-
-- `docs/images/achievements-list.png`
-- `docs/images/settings-screen.png`
-
 ![Achievements List](docs/images/achievements-list.png)
 ![Settings Screen](docs/images/settings-screen.png)
 
