@@ -1,0 +1,152 @@
+<UserControl x:Class="LocalAchievements.LocalAchievementsSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:LocalAchievements"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <local:SimpleTextConverter x:Key="SimpleTextConverter"/>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="20">
+
+            <TextBlock Text="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSettingsLanguageLabel'}"
+                       FontWeight="Bold" Margin="0,0,0,5" Foreground="{DynamicResource TextBrush}"/>
+
+            <ComboBox ItemsSource="{Binding AvailableLanguages}"
+                      SelectedItem="{Binding Settings.AchievementsLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Margin="0,0,0,20"/>
+
+            <CheckBox Content="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSettingsSpoiler'}"
+                      IsChecked="{Binding Settings.SpoilerSecrets, Mode=TwoWay}"
+                      Margin="0,0,0,20"
+                      Foreground="{DynamicResource TextBrush}"/>
+
+            <TextBlock Text="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSettingsPaths'}"
+                       FontWeight="Bold" Margin="0,0,0,5" Foreground="{DynamicResource TextBrush}"/>
+            <TextBlock Text="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSettingsNote'}"
+                       FontStyle="Italic" Margin="0,0,0,5" Foreground="{DynamicResource TextBrushDarker}" FontSize="11"/>
+
+            <StackPanel Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                    <Button Content="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCBrowse'}"
+                            Click="BtnBrowsePath_Click"
+                            HorizontalAlignment="Left"
+                            Margin="0,0,8,0"/>
+                    <Button Content="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='BtnReset'}"
+                            Click="BtnResetPaths_Click"
+                            HorizontalAlignment="Left"/>
+                </StackPanel>
+
+                <Border BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        HorizontalAlignment="Stretch">
+                    <ListBox ItemsSource="{Binding Settings.AchievementPaths}"
+                             Padding="0,0,6,0"
+                             Foreground="{DynamicResource TextBrush}"
+                             HorizontalContentAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             MaxHeight="140"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="0"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2,0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding}"
+                                               Foreground="{DynamicResource TextBrush}"
+                                               VerticalAlignment="Center"
+                                               Margin="6,2,8,2"
+                                               TextWrapping="NoWrap"
+                                               TextTrimming="CharacterEllipsis"/>
+                                    <Button Grid.Column="1"
+                                            Tag="{Binding}"
+                                            Click="BtnRemovePath_Click"
+                                            Margin="2,0,4,0"
+                                            Width="28"
+                                            Height="24"
+                                            Background="#2d0b0b"
+                                            BorderBrush="#d32f2f">
+                                        <Viewbox Width="11" Height="11" Stretch="Uniform">
+                                            <Path Data="M1,1 L11,11 M11,1 L1,11"
+                                                  Stroke="#ff4d4d"
+                                                  StrokeThickness="2.2"
+                                                  StrokeStartLineCap="Round"
+                                                  StrokeEndLineCap="Round"/>
+                                        </Viewbox>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </StackPanel>
+
+            <TextBlock Text="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSettingsTheme'}"
+                       FontWeight="Bold" Margin="0,0,0,5" Foreground="{DynamicResource TextBrush}"/>
+            <TextBlock Text="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSettingsThemeNote'}"
+                       FontStyle="Italic" Margin="0,0,0,5" Foreground="{DynamicResource TextBrushDarker}" FontSize="11"/>
+            <ComboBox x:Name="ComboThemes"
+                      ItemsSource="{Binding AvailableThemes}"
+                      SelectedItem="{Binding Settings.SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DropDownOpened="ComboThemes_DropDownOpened"
+                      Margin="0,0,0,20"/>
+
+            <TextBlock Text="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSoundPathLabel'}"
+                       FontWeight="Bold" Margin="0,0,0,5" Foreground="{DynamicResource TextBrush}"/>
+            <TextBlock Text="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSoundPathNote'}"
+                       FontStyle="Italic" Margin="0,0,0,5" Foreground="{DynamicResource TextBrushDarker}" FontSize="11"/>
+
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0"
+                         Text="{Binding Settings.SoundPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         VerticalContentAlignment="Center"
+                         Margin="0,0,10,0"/>
+
+                <Button Grid.Column="1"
+                        Content="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCBrowse'}"
+                        Click="BtnBrowseSound_Click"
+                        Margin="0,0,10,0"/>
+
+                <Button Grid.Column="2"
+                        Content="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCTestButton'}"
+                        Click="BtnTestSound_Click"/>
+            </Grid>
+
+            <TextBlock Text="{Binding Source={x:Static local:Localization.CurrentLanguage}, Converter={StaticResource SimpleTextConverter}, ConverterParameter='LOCSettingsDuration'}"
+                       FontWeight="Bold" Margin="0,0,0,5" Foreground="{DynamicResource TextBrush}"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <Slider Minimum="1" Maximum="30" Width="200"
+                        Value="{Binding Settings.NotificationDuration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TickFrequency="1" IsSnapToTickEnabled="True"/>
+                <TextBox Text="{Binding Settings.NotificationDuration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Width="52"
+                         Margin="10,0,0,0"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"/>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

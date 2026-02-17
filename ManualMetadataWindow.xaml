@@ -1,0 +1,51 @@
+﻿<Window x:Class="LocalAchievements.ManualMetadataWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Title}" Height="550" Width="700"
+        WindowStartupLocation="CenterOwner" Background="#1b2838" Foreground="White">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+
+            <TextBlock Text="{Binding Instructions}" 
+                       TextWrapping="Wrap" 
+                       Margin="0,0,0,15" 
+                       FontSize="14"
+                       Foreground="#66c0f4"/>
+
+            <Grid Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="CommandTextBox" Grid.Column="0"
+                         IsReadOnly="True" TextWrapping="NoWrap"
+                         Background="#101217" Foreground="#a0a0a0" 
+                         BorderBrush="#3d4450" Padding="5" FontFamily="Consolas"
+                         VerticalContentAlignment="Center"/>
+
+                <Button Content="{Binding CopyButton}" Grid.Column="1" Click="BtnCopyCommand_Click"
+                        Margin="10,0,0,0" Padding="15,5" 
+                        Background="#3d4450" Foreground="White"/>
+            </Grid>
+
+            <TextBlock Text="{Binding PasteHere}" FontSize="12" Foreground="#888888" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <TextBox x:Name="InputBox" Grid.Row="1" AcceptsReturn="True" AcceptsTab="True" 
+                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                 Background="#171a21" Foreground="#dcdcdc" FontFamily="Consolas"
+                 BorderBrush="#66c0f4" Padding="5"/>
+
+        <Button Grid.Row="2" Content="{Binding ButtonText}" HorizontalAlignment="Right" 
+                Width="150" Height="35" Margin="0,15,0,0" Click="BtnProcess_Click"
+                Background="#66c0f4" Foreground="Black" FontWeight="Bold"/>
+    </Grid>
+</Window>

@@ -1,0 +1,29 @@
+# Build artifacts
+bin/
+obj/
+dist/
+*.pext
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+
+# Rider
+.idea/
+
+# Logs and temporary files
+*.log
+*.tmp
+build_output.txt
+build_diag.txt
+
+# NuGet
+packages/
+*.nupkg
+*.csproj.user
+
+# OS files
+Thumbs.db
+Desktop.ini

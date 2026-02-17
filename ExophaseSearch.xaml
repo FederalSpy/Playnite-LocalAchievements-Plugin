@@ -1,0 +1,93 @@
+﻿<Window x:Class="LocalAchievements.ExophaseSearch"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Buscador Manual Exophase" Height="600" Width="800" 
+        WindowStartupLocation="CenterScreen"
+        Background="#F5F5F5">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#999999"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#333333"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,15">
+            <TextBlock Text="Buscar juego en la API de Exophase:" FontWeight="Bold" FontSize="16" Margin="0,0,0,5"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Name="SearchBox" Height="35" FontSize="14"/>
+                <Button Grid.Column="1" Content="🔍 BUSCAR" Click="Search_Click" Width="100" FontWeight="Bold" Background="#4CAF50" Foreground="White"/>
+            </Grid>
+        </StackPanel>
+
+        <ListBox Grid.Row="1" Name="ResultsList" SelectionChanged="ResultsList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="Margin" Value="2"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#B3D9FF"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#E6F2FF"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding ImageUrl}" Width="50" Height="50" Stretch="UniformToFill" Margin="0,0,10,0"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="15" Foreground="#0055AA"/>
+                            <TextBlock Text="{Binding Platform}" FontSize="10" FontWeight="Bold" Foreground="Black" Background="#EEEEEE" HorizontalAlignment="Left" Padding="3,0" Margin="0,2"/>
+                            <TextBlock Text="{Binding Url}" FontSize="11" Foreground="Gray"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <TextBlock Name="StatusText" Text="Listo." VerticalAlignment="Center" Margin="0,0,20,0" Foreground="Gray" FontStyle="Italic"/>
+            <Button Content="Cancelar" IsCancel="True" Width="100"/>
+            <Button Name="BtnSelect" Content="✅ VINCULAR" Click="Select_Click" Width="150" Margin="10,0,0,0" IsEnabled="False" FontWeight="Bold"/>
+        </StackPanel>
+    </Grid>
+</Window>
