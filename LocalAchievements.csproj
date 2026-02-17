@@ -101,34 +101,34 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ManualMetadataWindow.xaml.cs">
+    <Compile Include="UI\Views\ManualMetadataWindow.xaml.cs">
       <DependentUpon>ManualMetadataWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MyPlugin.cs" />
-    <Compile Include="LocalAchievementsSettings.cs" />
-    <Compile Include="LocalAchievementsSettingsView.xaml.cs">
+    <Compile Include="Core\MyPlugin.cs" />
+    <Compile Include="Core\LocalAchievementsSettings.cs" />
+    <Compile Include="UI\Views\LocalAchievementsSettingsView.xaml.cs">
       <DependentUpon>LocalAchievementsSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models.cs" />
-    <Compile Include="NotificationViewModel.cs" />
-    <Compile Include="AchievementsWindow.xaml.cs">
+    <Compile Include="Models\Models.cs" />
+    <Compile Include="UI\ViewModels\NotificationViewModel.cs" />
+    <Compile Include="UI\Views\AchievementsWindow.xaml.cs">
       <DependentUpon>AchievementsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExophaseSearch.xaml.cs">
+    <Compile Include="UI\Views\ExophaseSearch.xaml.cs">
       <DependentUpon>ExophaseSearch.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AchievementToast.xaml.cs">
+    <Compile Include="UI\Views\AchievementToast.xaml.cs">
       <DependentUpon>AchievementToast.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FileWatcherService.cs" />
-    <Compile Include="ExophaseService.cs" />
-    <Compile Include="ExophaseClient.cs" />
-    <Compile Include="LocalService.cs" />
-    <Compile Include="SimpleTextConverter.cs" />
-    <Compile Include="SteamSchemaFetcher.cs" />
-    <Compile Include="NotificationService.cs" />
-    <Compile Include="Localization.cs" />
+    <Compile Include="Services\FileWatcherService.cs" />
+    <Compile Include="Services\ExophaseService.cs" />
+    <Compile Include="Services\ExophaseClient.cs" />
+    <Compile Include="Services\LocalService.cs" />
+    <Compile Include="Utilities\SimpleTextConverter.cs" />
+    <Compile Include="Services\SteamSchemaFetcher.cs" />
+    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Core\Localization.cs" />
     <Compile Include="Readers\*" />
     <Compile Include="Services\AppIdResolver.cs" />
     <Compile Include="Services\AchievementMatcher.cs" />
@@ -143,23 +143,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AchievementsWindow.xaml">
+    <Page Include="UI\Views\AchievementsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ManualMetadataWindow.xaml">
+    <Page Include="UI\Views\ManualMetadataWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LocalAchievementsSettingsView.xaml">
+    <Page Include="UI\Views\LocalAchievementsSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExophaseSearch.xaml">
+    <Page Include="UI\Views\ExophaseSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AchievementToast.xaml">
+    <Page Include="UI\Views\AchievementToast.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
