@@ -1,11 +1,13 @@
 ﻿# Playnite Local Achievements Plugin
 
 <p align="center">
-  <img src="docs/images/settings-screen.png" alt="Local Achievements settings" width="900" />
+  <img src="docs/images/banner.png" alt="Local Achievements settings" width="1200" />
 </p>
 
 <p align="center">
-  <img alt="Playnite" src="https://img.shields.io/badge/Playnite-Desktop-1f6feb?style=for-the-badge" />
+  <a href="https://github.com/JosefNemec/Playnite">
+    <img alt="Playnite" src="https://img.shields.io/badge/Playnite-Desktop-1f6feb?style=for-the-badge" />
+  </a>
   <img alt="Platform" src="https://img.shields.io/badge/Platform-Windows-0ea5e9?style=for-the-badge" />
   <img alt="License" src="https://img.shields.io/badge/License-GPLv3-22c55e?style=for-the-badge" />
   <img alt="Status" src="https://img.shields.io/badge/Status-Learning%20Project-f59e0b?style=for-the-badge" />
@@ -21,6 +23,7 @@
 - Reads local achievements from `.ini`/text files used by Steam emulator-style setups.
 - Shows achievements inside Playnite.
 - Displays unlock notifications with custom sound/themes.
+- Includes language selection: English and Spanish.
 - Current readers are tested mainly with CODEX/RUNE-style files.
 - Designed to add more readers over time.
 
@@ -31,6 +34,7 @@
 - Lee logros locales desde archivos `.ini`/texto usados por configuraciones tipo emulador de Steam.
 - Muestra logros dentro de Playnite.
 - Lanza notificaciones de desbloqueo con sonido/tema personalizable.
+- Incluye selección de idioma: inglés y español.
 - Los readers actuales están probados principalmente con formatos tipo CODEX/RUNE.
 - Está pensado para ir añadiendo más readers con el tiempo.
 
@@ -39,11 +43,9 @@
 
 ## Screenshots
 
-| Achievements List | Settings |
-|---|---|
-| ![Achievements List](docs/images/achievements-list1.png) | ![Settings](docs/images/settings-screen.png) |
-
-![Achievements List 2](docs/images/achievements-list2.png)
+| Achievements List | Achievements List 2 | Settings |
+|---|---|---|
+| ![Achievements List](docs/images/achievements-list1.png) | ![Achievements List 2](docs/images/achievements-list2.png) | ![Settings](docs/images/settings-screen.png) |
 
 ## Installation (Recommended): From Release `.pext`
 
