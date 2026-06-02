@@ -25,40 +25,126 @@ namespace LocalAchievements
             // Inicializamos los lectores aquí mismo
             this.readers = new List<ILocalAchievementReader>
             {
-                new CodexRuneReader()
+                new CodexRuneReader(),
+                new GoldbergReader()
             };
 
             this.schemaFetcher = new SteamSchemaFetcher(api, plugin.GetPluginUserDataPath());
         }
 
-        public string FindAchievementsFile(Game game, string appId, List<string> searchPaths)
+        public LocalFileResult FindAchievementsFile(Game game, string appId, List<string> searchPaths)
         {
-            if (string.IsNullOrEmpty(appId)) return null;
-            if (searchPaths == null) return null;
+            if (string.IsNullOrEmpty(appId)) return LocalFileResult.NotFound();
+            if (searchPaths == null) return LocalFileResult.NotFound();
+
+            var candidates = new List<Candidate>();
 
             foreach (var rawPath in searchPaths)
             {
-                string path = ResolvePath(rawPath, game, appId);
-                if (Directory.Exists(path))
-                {
-                    var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories)
-                                         .Where(f => f.EndsWith(".ini", StringComparison.OrdinalIgnoreCase) ||
-                                                     f.EndsWith(".txt", StringComparison.OrdinalIgnoreCase));
+                string dir = ResolvePath(rawPath, game, appId);
+                if (string.IsNullOrEmpty(dir) || !Directory.Exists(dir)) continue;
 
-                    foreach (var file in files)
+                string[] files;
+                try { files = Directory.GetFiles(dir, "*", SearchOption.AllDirectories); }
+                catch { continue; }
+
+                foreach (var file in files)
+                {
+                    long size;
+                    try { size = new FileInfo(file).Length; } catch { continue; }
+                    if (size == 0) continue;
+
+                    string ext = Path.GetExtension(file).ToLowerInvariant();
+                    if (ext != ".json" && ext != ".ini" && ext != ".txt") continue;
+
+                    if (!IsAssociatedWithAppId(file, dir, appId)) continue;
+
+                    candidates.Add(new Candidate
                     {
-                        if (file.IndexOf(appId, StringComparison.OrdinalIgnoreCase) >= 0 ||
-                            path.IndexOf(appId, StringComparison.OrdinalIgnoreCase) >= 0)
-                        {
-                            foreach (var reader in readers)
-                            {
-                                if (reader.CanRead(file)) return file;
-                            }
-                        }
-                    }
+                        File = file,
+                        Score = ScoreCandidate(file, ext, dir, appId)
+                    });
                 }
             }
-            return null;
+
+            if (candidates.Count == 0) return LocalFileResult.NotFound();
+
+            var ordered = candidates.OrderByDescending(c => c.Score).ToList();
+
+            foreach (var c in ordered)
+            {
+                string ext = Path.GetExtension(c.File).ToLowerInvariant();
+                if (LooksLikeAchievementData(c.File, ext))
+                {
+                    return LocalFileResult.Found(c.File);
+                }
+            }
+
+            return LocalFileResult.Empty(ordered[0].File);
+        }
+
+        private class Candidate
+        {
+            public string File;
+            public int Score;
+        }
+
+        private bool IsAssociatedWithAppId(string filePath, string dir, string appId)
+        {
+            string name = Path.GetFileName(filePath) ?? "";
+            return name.IndexOf(appId, StringComparison.OrdinalIgnoreCase) >= 0
+                || (dir ?? "").IndexOf(appId, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private int ScoreCandidate(string filePath, string ext, string dir, string appId)
+        {
+            int score = 0;
+            string name = (Path.GetFileNameWithoutExtension(filePath) ?? "").ToLowerInvariant();
+            string dirName = (Path.GetFileName(dir) ?? "").ToLowerInvariant();
+
+            if (name.Contains("achievement") || name.Contains("logro") ||
+                name.Contains("unlock") || name.Contains("stats"))
+                score += 10;
+            if (name.IndexOf(appId, StringComparison.OrdinalIgnoreCase) >= 0) score += 5;
+            if (ext == ".json") score += 3;
+            else if (ext == ".ini") score += 2;
+            else score += 1;
+            if (dirName.IndexOf(appId, StringComparison.OrdinalIgnoreCase) >= 0) score += 2;
+            return score;
+        }
+
+        private bool LooksLikeAchievementData(string filePath, string ext)
+        {
+            try
+            {
+                string head;
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var sr = new StreamReader(fs))
+                {
+                    var buf = new char[8192];
+                    int read = sr.Read(buf, 0, buf.Length);
+                    head = new string(buf, 0, read);
+                }
+                if (string.IsNullOrWhiteSpace(head)) return false;
+
+                if (ext == ".json")
+                {
+                    string t = head.TrimStart();
+                    if (t.Length == 0 || (t[0] != '{' && t[0] != '[')) return false;
+                    string lower = head.ToLowerInvariant();
+                    return lower.Contains("achievement") || lower.Contains("unlocked")
+                        || lower.Contains("earned") || lower.Contains("apiname")
+                        || lower.Contains("\"name\"") || lower.Contains("\"path\"");
+                }
+                else
+                {
+                    string lower = head.ToLowerInvariant();
+                    return lower.Contains("[steamachievements]") || lower.Contains("[achievements]")
+                        || lower.Contains("achieved=") || lower.Contains("unlocktime=")
+                        || lower.Contains("earned_time=") || lower.Contains("apiname=");
+                }
+            }
+            catch { return false; }
         }
 
         public List<LocalUnlockInfo> ReadSpecificFile(string path)

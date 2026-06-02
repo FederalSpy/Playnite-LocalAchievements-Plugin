@@ -118,8 +118,10 @@ namespace LocalAchievements
 
             // 3. FUSIÓN LOCAL (Usando ambas listas)
             // Pasamos: (Lista Lógica, Lista Visual, Datos Locales, Diccionario)
-            string localPath = localService.FindAchievementsFile(game, appId, plugin.settings.Settings.AchievementPaths.ToList());
-            var localData = File.Exists(localPath) ? localService.ReadSpecificFile(localPath) : new List<LocalUnlockInfo>();
+            var localRes = localService.FindAchievementsFile(game, appId, plugin.settings.Settings.AchievementPaths.ToList());
+            var localData = localRes.Status == LocalFileStatus.Found
+                ? localService.ReadSpecificFile(localRes.Path)
+                : new List<LocalUnlockInfo>();
 
             // --- AQUÍ LLAMAMOS AL NUEVO MERGE ---
             AchievementMatcher.Merge(webListEnglish, displayList, localData, schema);

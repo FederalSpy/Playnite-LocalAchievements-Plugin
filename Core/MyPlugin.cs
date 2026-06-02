@@ -160,10 +160,20 @@ namespace LocalAchievements
             }
 
             // 3. Buscar archivo local
-            string localPath = localService.FindAchievementsFile(game, appId, settings.Settings.AchievementPaths.ToList());
-            string resLocal = !string.IsNullOrEmpty(localPath)
-                ? string.Format(Localization.Get("LocalFound"), localPath)
-                : Localization.Get("LocalNotFound");
+            var localRes = localService.FindAchievementsFile(game, appId, settings.Settings.AchievementPaths.ToList());
+            string resLocal;
+            switch (localRes.Status)
+            {
+                case LocalFileStatus.Found:
+                    resLocal = string.Format(Localization.Get("LocalFound"), localRes.Path);
+                    break;
+                case LocalFileStatus.Empty:
+                    resLocal = string.Format(Localization.Get("LocalEmpty"), localRes.Path);
+                    break;
+                default:
+                    resLocal = Localization.Get("LocalNoData");
+                    break;
+            }
 
             // 4. Escaneo Web y Fusión
             string resWeb = exoService.ScanExophase(game, forceManual, appId); // Pasamos appId explícito

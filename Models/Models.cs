@@ -81,4 +81,21 @@ namespace LocalAchievements
         public System.Collections.Generic.List<string> OrderedApiNames { get; set; } =
             new System.Collections.Generic.List<string>();
     }
+
+    public enum LocalFileStatus
+    {
+        NotFound,
+        Empty,
+        Found
+    }
+
+    public class LocalFileResult
+    {
+        public LocalFileStatus Status { get; set; }
+        public string Path { get; set; }
+
+        public static LocalFileResult NotFound() => new LocalFileResult { Status = LocalFileStatus.NotFound };
+        public static LocalFileResult Empty(string path) => new LocalFileResult { Status = LocalFileStatus.Empty, Path = path };
+        public static LocalFileResult Found(string path) => new LocalFileResult { Status = LocalFileStatus.Found, Path = path };
+    }
 }

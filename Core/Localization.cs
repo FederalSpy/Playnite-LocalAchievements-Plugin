@@ -40,6 +40,8 @@ namespace LocalAchievements
             { "ReportTitle", "Report: {0}" },
             { "LocalFound", "✅ Local: Found in {0}" },
             { "LocalNotFound", "❌ Local: Not found on disk." },
+            { "LocalEmpty", "⚠️ Local: File found but empty or invalid: {0}" },
+            { "LocalNoData", "⏳ Local: No data yet — the game may not have unlocked any achievements yet, or the configured path is incorrect." },
             { "LocalNoAppID", "❌ Local: No AppID available." },
 
             { "WebConnected", "✅ Web: Connected. {0} achievements.\nEg: {1} ({2}%)" },
@@ -119,6 +121,8 @@ namespace LocalAchievements
             { "ReportTitle", "Reporte: {0}" },
             { "LocalFound", "✅ Local: Encontrado en {0}" },
             { "LocalNotFound", "❌ Local: No encontrado en disco." },
+            { "LocalEmpty", "⚠️ Local: Archivo encontrado pero vacío o inválido: {0}" },
+            { "LocalNoData", "⏳ Local: Aún no hay datos — el juego quizá aún no ha desbloqueado logros, o la ruta configurada es incorrecta." },
             { "LocalNoAppID", "❌ Local: No tenemos AppID para buscar." },
 
             { "WebConnected", "✅ Web: Conectado. {0} logros.\nEj: {1} ({2}%)" },
